@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 public class AvionServiceImpl implements AvionService {
 
     private final AvionRepository avionRepository;
+    private final AvionMapper mapper;
 
-    public AvionServiceImpl(AvionRepository avionRepository) {
+    public AvionServiceImpl(AvionRepository avionRepository, AvionMapper mapper) {
         this.avionRepository = avionRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -38,8 +40,8 @@ public class AvionServiceImpl implements AvionService {
             throw new Exception("La capacidad del avión es incorrecta, debe ser mayor a cero");
         }
 
-        Avion avion = AvionMapper.dtoToDomain(avionDTO);
-        return AvionMapper.domainToDto(avionRepository.save(avion));
+        Avion avion = mapper.toEntity(avionDTO);
+        return mapper.toDto(avionRepository.save(avion));
     }
 
     @Override

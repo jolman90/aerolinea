@@ -16,10 +16,12 @@ public class AvionController {
 
     private final AvionService avionService;
     private final AvionRepository avionRepository;
+    private final AvionMapper mapper;
 
-    public AvionController(AvionService avionService, AvionRepository avionRepository) {
+    public AvionController(AvionService avionService, AvionRepository avionRepository, AvionMapper mapper) {
         this.avionService = avionService;
         this.avionRepository = avionRepository;
+        this.mapper = mapper;
     }
 
     @GetMapping(value = "/validarController")
@@ -29,7 +31,7 @@ public class AvionController {
 
     @GetMapping("/obtenerAviones")
     public List<AvionDTO> obtenerAviones() {
-        return AvionMapper.domainToDtoList(avionRepository.findAll());
+        return mapper.toDto(avionRepository.findAll());
     }
 
     @PostMapping("/guardarNuevoAvion")
